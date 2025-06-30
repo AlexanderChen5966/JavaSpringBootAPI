@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+cwa:
+   apiKey: ${CWA_API_KEY}
+google:
+   apiKey: ${GOOGLE_API_KEY}
+
+spring:
+  cache:
+    type: simple

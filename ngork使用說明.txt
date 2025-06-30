@@ -1,0 +1,42 @@
+1. 安裝 Ngrok
+下載 Ngrok
+
+前往 Ngrok 官方網站 下載 Windows 版。
+
+下載 .zip 檔案後，解壓縮到你想要的資料夾。
+
+設定 Ngrok 授權
+
+註冊並登入 Ngrok，然後進入 Ngrok Dashboard 取得 authtoken。
+
+在 命令提示字元（cmd） 中設定：
+
+bash
+ngrok authtoken YOUR_AUTH_TOKEN
+這樣 Ngrok 才能正常運行。
+
+2. 啟動 Spring Boot API
+確保 API 正確啟動 在 Spring Boot 設定：
+
+server.address=0.0.0.0
+server.port=8080
+這樣 Ngrok 才能存取你的 API。
+
+啟動 Spring Boot
+
+bash
+mvn spring-boot:run
+或者：
+
+bash
+java -jar your-app.jar
+3. 使用 Ngrok 轉址 API
+開啟命令提示字元（cmd），然後執行：
+
+bash
+ngrok http 8080
+這樣 Ngrok 會產生一個外網 URL，例如：
+
+https://random-subdomain.ngrok.io
+你可以用這個 URL 在 Android 或其他設備測試 API。
+
