@@ -2,11 +2,14 @@
 # Weather API
 
 ## 專案簡介
+
 此專案為 **台灣地區天氣查詢 API**，基於 Spring Boot 開發，並提供 RESTful API 以獲取 36 小時、3 日、7 日天氣預報及地理位置反查功能。
 內建 Swagger UI 以便測試 API。
 此專案有部署到Zeabur平台使用，並連接到Android App串接使用
+
 下面是Github上的時雨APP連結
 [時雨APP連結](https://github.com/AlexanderChen5966/WeatherAPP)
+
 ---
 
 ## **快速開始**
@@ -97,19 +100,8 @@ src/main/java/com/aleanderchen/weatherapi
 
 
 ---
-## 專案實際圖示
-### 系統架構圖
-![系統架構圖](images/系統架構圖.png)
-
-### 36小時天氣資訊頁面
-![APP主頁面](images/主頁面.png)
-
-### 一週天氣資訊頁面
-![APP主頁面](images/listview.png)
-
-### 選取縣市
-![APP主頁面](images/alertdialog.png)
-![APP主頁面](images/alertdialog_item.png)
+## 專案Swagger UI文件圖示
+![專案Swagger UI網頁](images/springboot_swagger_api網頁.png)
 
 ---
 ## **授權**
