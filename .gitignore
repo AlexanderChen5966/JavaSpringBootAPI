@@ -32,5 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+# macOS 系統檔案
+.DS_Store
 
 .env
