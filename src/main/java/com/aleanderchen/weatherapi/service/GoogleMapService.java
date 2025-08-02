@@ -1,10 +1,15 @@
 package com.aleanderchen.weatherapi.service;
 
-import com.aleanderchen.weatherapi.util.HttpClientUtil;
-import org.json.JSONArray;
-import org.json.JSONObject;
+// import com.aleanderchen.weatherapi.util.HttpClientUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+// 
 
 @Service
 public class GoogleMapService {
@@ -12,36 +17,49 @@ public class GoogleMapService {
     @Value("${google.apiKey}")
     private String googleApiKey;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private WebClient webClient;
+
     public String getCityFromCoordinates(double lat, double lng) {
-        String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" 
-                   + lat + "," + lng + "&key=" + googleApiKey + "&language=zh-TW";
+        try {
+            String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
+                    + lat + "," + lng + "&key=" + googleApiKey + "&language=zh-TW";
 
-        String json = HttpClientUtil.get(url);
-        JSONObject root = new JSONObject(json);
+            // String json = HttpClientUtil.get(url);
+            String json = webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+            JsonNode root = objectMapper.readTree(json);
 
-        if (!root.getString("status").equals("OK")) {
-            return "查無結果";
-        }
+            if (!"OK".equals(root.path("status").asText())) {
+                return "查無結果";
+            }
 
-        JSONArray results = root.getJSONArray("results");
-        if (results.length() == 0) {
-            return "查無結果";
-        }
+            JsonNode results = root.path("results");
+            if (results.isArray() && results.size() > 0) {
+                JsonNode addressComponents = results.get(0).path("address_components");
 
-        JSONArray addressComponents = results.getJSONObject(0).getJSONArray("address_components");
-
-        for (int i = 0; i < addressComponents.length(); i++) {
-            JSONObject component = addressComponents.getJSONObject(i);
-            JSONArray types = component.getJSONArray("types");
-
-            for (int j = 0; j < types.length(); j++) {
-                String type = types.getString(j);
-                if (type.equals("administrative_area_level_1") || type.equals("locality")) {
-                    return component.getString("long_name");
+                for (JsonNode component : addressComponents) {
+                    JsonNode types = component.path("types");
+                    for (JsonNode typeNode : types) {
+                        String type = typeNode.asText();
+                        if ("administrative_area_level_1".equals(type) || "locality".equals(type)) {
+                            return component.path("long_name").asText();
+                        }
+                    }
                 }
             }
-        }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "查無縣市名稱";
     }
 }
+
+

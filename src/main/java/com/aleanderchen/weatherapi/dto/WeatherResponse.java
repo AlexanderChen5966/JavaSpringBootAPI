@@ -1,24 +1,3 @@
-//package com.aleanderchen.weatherapi.dto;
-//
-//public class WeatherResponse {
-//    private String location;
-//    private String description;
-//
-//    public WeatherResponse(String location, String description) {
-//        this.location = location;
-//        this.description = description;
-//    }
-//
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//}
-
-
 package com.aleanderchen.weatherapi.dto;
 
 import java.util.List;
@@ -56,6 +35,10 @@ public class WeatherResponse {
         this.minT = minT;
         this.maxT = maxT;
     }
+        public ForecastPeriod() {
+        //TODO Auto-generated constructor stub
+        }
+
         public String getStartTime() { return startTime; }
         public String getEndTime() { return endTime; }
         public String getWx() { return wx; }
@@ -67,5 +50,8 @@ public class WeatherResponse {
         public void setPop(String pop) { this.pop = pop; }
         public void setMinT(String minT) { this.minT = minT; }
         public void setMaxT(String maxT) { this.maxT = maxT; }
+        public void setStartTime(String startTime) { this.startTime = startTime; }
+        public void setEndTime(String endTime) { this.endTime = endTime; }
+
     }
 }
